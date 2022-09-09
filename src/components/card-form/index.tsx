@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import { Form } from 'react-bootstrap';
 import { CreditCard } from '../../card-manager/credit-cards';
+import { Form, FloatingLabel, Button } from 'react-bootstrap';
 
+import './style.scss';
 interface CardFormProps {
   selectedCreditCard: CreditCard;
   onUpdateState: any;
@@ -15,13 +16,14 @@ const monthsArray = Array.from({ length: 12 }, (x, i) => {
   const month = i + 1;
   return month <= 9 ? '0' + month : month;
 });
+
 const currentYear = new Date().getFullYear();
 const yearsArray = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 
 const coins = ['Bitcoin', 'eGold'];
 
 export default function CardFrom(props: CardFormProps) {
-  const [ccNumber, setCcNumber] = useState('');
+  const [isBalanceValid, setIsBalanceValid] = useState(true);
 
   const [errors, setErrors] = useState<CreditCard>({
     id: '',
@@ -31,6 +33,7 @@ export default function CardFrom(props: CardFormProps) {
     cardMonth: '',
     cardYear: '',
     cardCvv: '',
+    cardBalance: '',
   });
 
   const {
@@ -45,6 +48,13 @@ export default function CardFrom(props: CardFormProps) {
     target: { name: string; value: string };
   }) => {
     const { name, value } = event.target;
+    onUpdateState(name, value.toUpperCase());
+  };
+
+  const handleFormChangeCrypto = (event: {
+    target: { name: string; value: string };
+  }) => {
+    const { name, value } = event.target;
     onUpdateState(name, value);
   };
 
@@ -52,8 +62,32 @@ export default function CardFrom(props: CardFormProps) {
     target: { value: string; name: string };
   }) => {
     const { name, value } = event.target;
-    if (isNaN(Number(value))) return;
-    onUpdateState(name, value);
+    const clearNumber = value.replaceAll(' ', '');
+    const withSpace = clearNumber.replace(/\d{4}(?=.)/g, '$& ');
+
+    if (isNaN(Number(clearNumber))) return;
+    onUpdateState(name, withSpace);
+  };
+
+  const handleFormChangeBalance = (event: {
+    target: { value: string; name: string };
+  }) => {
+    const { name, value } = event.target;
+    const withoutCurrency = value.replace('$', '');
+    const withoutComma = withoutCurrency.replace(',', '');
+    const withCurrency = `$${withoutComma.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ','
+    )}`;
+    const reg = /^[0-9\b]+$/;
+
+    if (!reg.test(withoutComma)) {
+      setIsBalanceValid(false);
+    } else {
+      setIsBalanceValid(true);
+    }
+
+    onUpdateState(name, withCurrency);
   };
 
   const isFormHasErrors = () => {
@@ -65,31 +99,54 @@ export default function CardFrom(props: CardFormProps) {
       cardMonth: '',
       cardYear: '',
       cardCvv: '',
+      cardBalance: '',
     };
 
     let isErrorFlag = false;
     Object.keys(newErrors).forEach(function (key: any) {
       const keyPair = key as keyof CreditCard;
-      const displayableKeyName = key.toLowerCase().replace('card', 'Card');
+      let displayableKeyName = key;
 
       if (!selectedCreditCard[keyPair]) {
-        newErrors[keyPair] = `${displayableKeyName} value required.`;
+        if (displayableKeyName === 'cardNumber') {
+          displayableKeyName = 'Card number';
+        } else if (displayableKeyName === 'cardHolder') {
+          displayableKeyName = 'Card holder';
+        } else if (displayableKeyName === 'cardCryptoType') {
+          displayableKeyName = 'Crypto coin';
+        } else if (displayableKeyName === 'cardBalance') {
+          displayableKeyName = 'Card balance';
+        } else if (displayableKeyName === 'cardMonth') {
+          displayableKeyName = 'Expiration month';
+        } else if (displayableKeyName === 'cardYear') {
+          displayableKeyName = 'Expiration year';
+        } else if (displayableKeyName === 'cardCvv') {
+          displayableKeyName = 'CVV/CVC';
+        }
+
+        newErrors[keyPair] = `${displayableKeyName} value is required`;
         isErrorFlag = true;
       } else {
         newErrors[keyPair] = '';
         isErrorFlag = false;
       }
     });
+
     if (isErrorFlag) {
       setErrors(newErrors);
       return isErrorFlag;
     }
 
-    if (selectedCreditCard['cardNumber'].length !== 16) {
+    if (!isBalanceValid) {
+      newErrors.cardBalance = 'Card balance should contain only digits';
+      isErrorFlag = true;
+    }
+
+    if (selectedCreditCard['cardNumber'].length !== 19) {
       newErrors.cardNumber = 'Card number should be 16 digits';
       isErrorFlag = true;
     } else if (selectedCreditCard['cardCvv'].length !== 4) {
-      newErrors.cardCvv = 'Card cvv should be 4 digits';
+      newErrors.cardCvv = 'Card CVV/CVC should be 4 digits';
       isErrorFlag = true;
     }
 
@@ -105,7 +162,7 @@ export default function CardFrom(props: CardFormProps) {
     setIsCardFlipped(false);
   };
 
-  const handleConfirmAction = (e: any) => {
+  const handleConfirmAction = () => {
     if (!isFormHasErrors()) {
       handleSubmitAction();
     }
@@ -114,157 +171,156 @@ export default function CardFrom(props: CardFormProps) {
   return (
     <div className='card-form'>
       <div className='card-list'>{children}</div>
-
-      <div className='card-form__inner'>
-        <div className='card-input'>
-          <label htmlFor='cardNumber' className='card-input__label'>
-            Card number
-          </label>
+      <div className='card-form_wrapper'>
+        <FloatingLabel label='Card number'>
           <Form.Control
+            id='floatingInputCustom'
             type='text'
             name='cardNumber'
-            className='card-input__input'
+            className='card-form_input'
             autoComplete='off'
             onChange={handleFormChangeNumbers}
-            maxLength={16}
+            maxLength={19}
             value={selectedCreditCard.cardNumber}
             isInvalid={!!errors.cardNumber}
+            placeholder='Card number'
           />
           <Form.Control.Feedback type='invalid'>
             {errors.cardNumber}
           </Form.Control.Feedback>
-        </div>
+        </FloatingLabel>
 
-        <div className='card-input'>
-          <label htmlFor='cardName' className='card-input__label'>
-            Card holder name
-          </label>
+        <FloatingLabel label='Card holder'>
           <Form.Control
             type='text'
             name='cardHolder'
-            className='card-input__input'
+            className='card-form_input'
             autoComplete='off'
             onChange={handleFormChange}
             maxLength={25}
             value={selectedCreditCard.cardHolder}
             isInvalid={!!errors.cardHolder}
+            placeholder='Card holder'
           />
           <Form.Control.Feedback type='invalid'>
             {errors.cardHolder}
           </Form.Control.Feedback>
-        </div>
+        </FloatingLabel>
 
-        <div className='card-form__row'>
-          <div className='card-form__group'>
-            <label htmlFor='cardMonth' className='card-input__label'>
-              Expiration date
-            </label>
-            <Form.Control
-              as='select'
-              className='card-input__input -select'
-              value={selectedCreditCard.cardCryptoType}
-              name='cardCryptoType'
+        <div className='card-form_helper'>
+          <FloatingLabel controlId='floatingSelect' label='Card month'>
+            <Form.Select
+              aria-label='Card month'
+              value={selectedCreditCard.cardMonth}
+              name='cardMonth'
+              className='card-form_input'
               onChange={handleFormChange}
-              isInvalid={!!errors.cardCryptoType}
+              isInvalid={!!errors.cardMonth}
             >
-              <option value='' disabled>
-                COIN
-              </option>
-
-              {coins.map((value, index) => (
+              {monthsArray.map((value, index) => (
                 <option key={index} value={value}>
                   {value}
                 </option>
               ))}
-            </Form.Control>
+            </Form.Select>
             <Form.Control.Feedback type='invalid'>
-              {errors.cardCryptoType}
+              {errors.cardMonth}
             </Form.Control.Feedback>
-          </div>
-        </div>
+          </FloatingLabel>
 
-        <div className='card-form__row'>
-          <div className='card-form__col'>
-            <div className='card-form__group'>
-              <label htmlFor='cardMonth' className='card-input__label'>
-                Expiration date
-              </label>
-              <Form.Control
-                as='select'
-                className='card-input__input -select'
-                value={selectedCreditCard.cardMonth}
-                name='cardMonth'
-                onChange={handleFormChange}
-                isInvalid={!!errors.cardMonth}
-              >
-                <option value='' disabled>
-                  Month
+          <FloatingLabel controlId='floatingSelect' label='Card year'>
+            <Form.Select
+              aria-label='Card year'
+              value={selectedCreditCard.cardYear}
+              name='cardYear'
+              className='card-form_input'
+              onChange={handleFormChange}
+              isInvalid={!!errors.cardYear}
+            >
+              {yearsArray.map((value, index) => (
+                <option key={index} value={value}>
+                  {value}
                 </option>
-
-                {monthsArray.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type='invalid'>
-                {errors.cardMonth}
-              </Form.Control.Feedback>
-              <Form.Control
-                as='select'
-                className='card-input__input -select'
-                value={selectedCreditCard.cardYear}
-                name='cardYear'
-                onChange={handleFormChange}
-                isInvalid={!!errors.cardYear}
-              >
-                <option value='' disabled>
-                  Year
-                </option>
-
-                {yearsArray.map((value, index) => (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type='invalid'>
-                {errors.cardYear}
-              </Form.Control.Feedback>
-            </div>
-          </div>
-
-          <div className='card-form__col -cvv'>
-            <div className='card-input'>
-              <label htmlFor='cardCVV' className='card-input__label'>
-                CVV (Securty code)
-              </label>
-              <Form.Control
-                type='text'
-                name='cardCvv'
-                className='card-input__input'
-                autoComplete='off'
-                onChange={handleFormChangeNumbers}
-                maxLength={4}
-                value={selectedCreditCard.cardCvv}
-                isInvalid={!!errors.cardCvv}
-                onFocus={onCvvFocus}
-                onBlur={onCvvBlur}
-              />
-              <Form.Control.Feedback type='invalid'>
-                {errors.cardCvv}
-              </Form.Control.Feedback>
-            </div>
-          </div>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type='invalid'>
+              {errors.cardYear}
+            </Form.Control.Feedback>
+          </FloatingLabel>
         </div>
 
-        <div className='card-form__row'>
-          <div className='card-form__col'>
-            <div className='d-grid gap-2'>
-              <button onClick={handleConfirmAction}>Confirm</button>
-            </div>
-          </div>
+        <FloatingLabel
+          controlId='floatingSelect'
+          label='Select your crypto coin'
+        >
+          <Form.Select
+            aria-label='Select your crypto coin'
+            value={selectedCreditCard.cardCryptoType}
+            name='cardCryptoType'
+            className='card-form_input'
+            onChange={handleFormChangeCrypto}
+            isInvalid={!!errors.cardCryptoType}
+          >
+            <option value='' disabled>
+              Crypto coin
+            </option>
+            {coins.map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
+          </Form.Select>
+          <Form.Control.Feedback type='invalid'>
+            {errors.cardCryptoType}
+          </Form.Control.Feedback>
+        </FloatingLabel>
+
+        <div className='card-form_helper'>
+          <FloatingLabel label='Card balance'>
+            <Form.Control
+              id='floatingInputCustom'
+              type='text'
+              name='cardBalance'
+              className='card-form_input'
+              autoComplete='off'
+              onChange={handleFormChangeBalance}
+              maxLength={8}
+              value={selectedCreditCard.cardBalance}
+              isInvalid={!!errors.cardBalance}
+              placeholder='Card number'
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.cardBalance}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+
+          <FloatingLabel label='CVV/CVC'>
+            <Form.Control
+              type='text'
+              name='cardCvv'
+              className='card-form_input'
+              autoComplete='off'
+              onChange={handleFormChangeNumbers}
+              maxLength={4}
+              value={selectedCreditCard.cardCvv}
+              isInvalid={!!errors.cardCvv}
+              onFocus={onCvvFocus}
+              onBlur={onCvvBlur}
+              placeholder='CVV/CVC'
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.cardCvv}
+            </Form.Control.Feedback>
+          </FloatingLabel>
         </div>
+
+        <Button
+          onClick={handleConfirmAction}
+          variant='success'
+          className='card-form_btn'
+        >
+          Confirm
+        </Button>
       </div>
     </div>
   );

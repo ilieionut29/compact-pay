@@ -1,0 +1,51 @@
+.card-form {
+  max-width: 720px;
+  margin: 0 auto 24px auto;
+  position: relative;
+
+  &_wrapper {
+    font-family: 'Lato', sans-serif;
+    padding: 150px 24px 0 24px;
+    background: #ffffff;
+    margin: 0 auto;
+    max-width: 680px;
+
+    label {
+      font-size: 16px;
+      opacity: 0.65;
+    }
+
+    .form-floating {
+      margin: 0 0 16px 0;
+    }
+  }
+
+  &_input {
+    font-size: 16px;
+  }
+
+  &_helper {
+    display: flex;
+    gap: 16px;
+
+    .form-floating {
+      width: 100%;
+    }
+  }
+
+  &_btn.btn-success {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.035em;
+    width: 100%;
+    height: 58px;
+    margin: 0 0 20px 0;
+  }
+}
+
+@media (min-width: 680px) {
+  .card-form_wrapper {
+    padding: 220px 24px 0 24px;
+    border-radius: 24px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+}

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useCallback } from 'react';
-import CardForm from '../../components/card-form';
-import { CreditCard, updateLocalStorageCards } from '../credit-cards';
-import Card from '../../components/credit-card-box';
-
-import { v4 as uuid } from 'uuid';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
+import { CreditCard, updateLocalStorageCards } from '../credit-cards';
+import CardForm from '../../components/card-form';
+import Card from '../../components/credit-card-box';
+import BackButton from '../../components/back-button';
+
 const initialState: CreditCard = {
   id: '',
   cardNumber: '',
@@ -14,6 +14,7 @@ const initialState: CreditCard = {
   cardMonth: '',
   cardYear: '',
   cardCvv: '',
+  cardBalance: '',
 };
 
 export default function AddCard() {
@@ -55,6 +56,7 @@ export default function AddCard() {
 
   return (
     <>
+      <BackButton />
       <CardForm
         selectedCreditCard={state}
         onUpdateState={updateStateValues}

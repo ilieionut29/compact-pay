@@ -9,19 +9,23 @@ import NavBar from './components/navbar';
 import './style/style.scss';
 import './style/animation.scss';
 
-function App() {
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
+const App = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
         <Routes>
           <Route path='/' element={<Cards />} />
           <Route path='/add-card' element={<AddCard />} />
-          <Route path='/edit-card' element={<EditCard />} />
+          <Route path='/cards/:id/edit' element={<EditCard />} />
         </Routes>
       </BrowserRouter>
     </>
   );
-}
+};
 
 export default App;

@@ -6,6 +6,7 @@ export interface CreditCard {
   cardMonth: string;
   cardYear: string;
   cardCvv: string;
+  cardBalance: string;
 }
 
 export interface AddEditCard extends CreditCard {
@@ -23,6 +24,7 @@ export class CreditCardAPI {
         cardMonth: '01',
         cardYear: '2023',
         cardCvv: '1111',
+        cardBalance: '11.324$'
       },
       {
         id: 'card-2',
@@ -32,6 +34,8 @@ export class CreditCardAPI {
         cardMonth: '02',
         cardYear: '2024',
         cardCvv: '2222',
+        cardBalance: '11.324$'
+
       },
 
       {
@@ -42,6 +46,8 @@ export class CreditCardAPI {
         cardMonth: '02',
         cardYear: '2024',
         cardCvv: '2222',
+        cardBalance: '11.324$'
+
       },
     ];
 

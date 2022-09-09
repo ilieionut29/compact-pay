@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import "~bootstrap/scss/bootstrap";
 
 * {
   margin: 0;
@@ -8,4 +8,8 @@
 
 a {
   text-decoration: initial;
+}
+
+body {
+  background: #F6F6F6;
 }

@@ -2,17 +2,6 @@ import React, { useMemo } from 'react';
 
 import './style.scss';
 
-const CARDS = {
-  visa: '^4',
-  masterCard: '^5[1-5]',
-  discover: '6011',
-};
-
-const COINS = {
-  eGold: 'EGLD',
-  Bitcoin: 'BTC',
-};
-
 interface CardProp {
   cardNumber: any;
   cardCryptoType: any;
@@ -23,7 +12,18 @@ interface CardProp {
   isCardFlipped: any;
 }
 
-function Card(props: CardProp) {
+const CARDS = {
+  visa: '^4',
+  masterCard: '^5[1-5]',
+  discover: '6011',
+};
+
+// const COINS = {
+//   eGold: 'EGLD',
+//   Bitcoin: 'BTC',
+// };
+
+const Card = (props: CardProp) => {
   const {
     cardNumber,
     cardCryptoType,
@@ -36,11 +36,11 @@ function Card(props: CardProp) {
 
   const chipType = (cardNumber: any) => {
     const number = cardNumber;
-    let re;
+    let result;
 
     for (const [card, pattern] of Object.entries(CARDS)) {
-      re = new RegExp(pattern);
-      if (number.match(re) != null) {
+      result = new RegExp(pattern);
+      if (number.match(result) != null) {
         return card;
       }
     }
@@ -50,11 +50,11 @@ function Card(props: CardProp) {
 
   // const coinType = (cardCryptoType: any) => {
   //   const coin = cardCryptoType;
-  //   let re;
+  //   let result;
 
   //   for (const [card, pattern] of Object.entries(COINS)) {
-  //     re = new RegExp(pattern);
-  //     if (coin.match(re) != null) {
+  //     result = new RegExp(pattern);
+  //     if (coin.match(result) != null) {
   //       return card;
   //     }
   //   }
@@ -62,34 +62,36 @@ function Card(props: CardProp) {
   //   return 'EGLD'; //default type
   // };
 
-  const cardBackgroundName = () => {
-    if (cardCryptoType === 'Bitcoin') {
-      return `${'Bitcoin'}.png`;
-    } else {
-      return `${'eGold'}.png`;
-    }
-  };
-
-  const BACKGROUND_IMG = cardBackgroundName();
-
   const useChipType = useMemo(() => {
     return chipType(cardNumber);
   }, [cardNumber]);
 
   // const useCoinType = useMemo(() => {
-  //   console.log(cardCryptoType);
   //   return coinType(cardCryptoType);
   // }, [cardCryptoType]);
 
+  const cardBackgroundName = () => {
+    if (cardCryptoType === 'Bitcoin') {
+      return 'Bitcoin.png';
+    } else if (cardCryptoType === 'eGold') {
+      return 'eGold.png';
+    } else {
+      return 'background.png';
+    }
+  };
+
+  const cardBackground = cardBackgroundName();
+
   const maskCardNumber = (cardNumber: string) => {
     const cardNumberArray = cardNumber.split('');
-    cardNumberArray.forEach((val, index) => {
+    cardNumberArray.forEach((value, index) => {
       if (index > 5 && index < 12) {
-        if (cardNumberArray[index] != ' ') {
+        if (cardNumberArray[index] !== ' ') {
           cardNumberArray[index] = '*';
         }
       }
     });
+
     return cardNumberArray;
   };
 
@@ -98,10 +100,11 @@ function Card(props: CardProp) {
       <div className='card-item_side -front'>
         <div className='card-item_cover'>
           <img
-            src={`/card-background/${BACKGROUND_IMG}`}
-            alt={BACKGROUND_IMG}
+            src={`/card-background/${cardBackground}`}
+            alt={cardBackground}
           />
         </div>
+
         <div className='card-item_wrapper'>
           <div className='card-item_top'>
             <div className='card-item_coin'>
@@ -137,7 +140,6 @@ function Card(props: CardProp) {
           <div className='card-item_content'>
             <div className='card-item_name'>
               <label>CARD HOLDER</label>
-
               {cardHolder ? (
                 cardHolder
                   .split('')
@@ -186,12 +188,13 @@ function Card(props: CardProp) {
       <div className='card-item_side -back'>
         <div className='card-item_cover'>
           <img
-            src={`/card-background/${BACKGROUND_IMG}`}
-            alt={BACKGROUND_IMG}
+            src={`/card-background/${cardBackground}`}
+            alt={cardBackground}
           />
         </div>
 
         <div className='card-item_band' />
+
         <div className='card-item_cvv'>
           <div className='card-item_cvvTitle'>CVV</div>
           <div className='card-item_cvvBand'>
@@ -212,20 +215,23 @@ function Card(props: CardProp) {
                 )}${cardHolder
                   .replace(/\s/g, '')
                   .substring(0, 4)
-                  .toUpperCase()}${cardNumber.substring(10, 16)}${cardHolder
+                  .toUpperCase()}${cardNumber
+                  .replaceAll(' ', '')
+                  .substring(10, 16)}${cardHolder
                   .replace(/\s/g, '')
                   .substring(4, 7)
                   .toUpperCase()}`}
               </span>
             </div>
+
             <div className='card-type'>
-              <img src={`/chip-type/${useChipType}.svg`} alt='useChipType' />
+              <img src={`/chip-type/${useChipType}.svg`} alt={useChipType} />
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Card;

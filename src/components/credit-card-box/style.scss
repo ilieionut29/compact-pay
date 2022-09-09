@@ -1,10 +1,15 @@
+.card-list {
+  margin: 0 6px -130px 6px;
+}
+
 .card-item {
-  position: relative;
-  width: 560px;
-  height: 355px;
-  border-radius: 30px;
-  // overflow: hidden;
   font-family: 'Inter', sans-serif;
+  position: relative;
+  width: 100%;
+  height: 195px;
+  border-radius: 15px;
+  margin: 0 auto;
+  max-width: 308px;
 
   &.flipped {
     .card-item_side {
@@ -25,7 +30,7 @@
     letter-spacing: -0.035em;
     font-weight: 500;
     opacity: 0.5;
-    color: white;
+    color: #ffffff;
   }
 
   .date-placeholder {
@@ -55,14 +60,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 24px;
-        margin-right: 12px;
+        margin-top: 12px;
+        margin-right: 0;
       }
 
-      .card-item_cover {
-        img {
-          transform: rotateY(180deg);
-        }
+      .card-item_cover img {
+        transform: rotateY(180deg);
       }
     }
   }
@@ -86,16 +89,20 @@
   &_wrapper {
     display: flex;
     flex-direction: column;
-    height: 355px;
-    padding: 32px;
+    height: 195px;
+    padding: 12px;
   }
 
   &_top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: auto;
+
+    .chip-type {
+      width: 60px;
+      height: 40px;
+    }
   }
 
   &_coin {
@@ -103,36 +110,30 @@
     align-items: center;
 
     .crypto-coin {
-      width: 40px;
+      width: 30px;
       margin-right: 12px;
     }
 
     .coin-name {
       font-weight: 700;
       font-size: 18px;
-      color: white;
+      color: #ffffff;
     }
   }
 
   &_number {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.04em;
-    color: white;
+    color: #ffffff;
     text-shadow: 0px 2.29088px 4.73px rgba(8, 43, 69, 0.16);
-
-    &_digit:nth-child(4),
-    &_digit:nth-child(8),
-    &_digit:nth-child(12) {
-      margin-right: 10px;
-    }
   }
 
   &_separator {
     width: 100%;
     height: 1px;
     background: rgba(249, 249, 249, 0.21);
-    margin: 32px 0 26px 0;
+    margin: 3px 0;
   }
 
   &_content {
@@ -144,7 +145,7 @@
   &_name,
   &_date {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 24px;
     color: #ffffff;
     text-shadow: 0px 4px 4px rgba(92, 92, 92, 0.25);
@@ -156,35 +157,35 @@
   }
 
   &_band {
-    height: 50px;
     background: black;
-    width: 553px;
-    margin: 50px auto 0 auto;
+    height: 30px;
+    width: 100%;
+    margin: 25px auto 0 auto;
   }
 
   &_cvv {
-    width: calc(100% - 64px);
-    margin: 70px auto 0 auto;
+    width: calc(100% - 30px);
+    margin: 10px auto 0 auto;
   }
 
   &_cvvTitle {
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     letter-spacing: 0.05em;
     color: #ffffff;
     text-shadow: 0px 4px 4px rgba(92, 92, 92, 0.25);
     text-align: right;
     margin-right: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 3px;
   }
 
   &_cvvBand {
-    background: white;
+    background: #ffffff;
     width: 100%;
-    height: 50px;
+    height: 30px;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 50px;
+    font-size: 16px;
+    line-height: 30px;
     color: black;
     text-shadow: 0px 4px 4px rgba(92, 92, 92, 0.25);
     text-align: right;
@@ -193,7 +194,113 @@
   }
 
   &_id_text {
-    color: white;
-    font-size: 16px;
+    color: #ffffff;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 375px) {
+  .card-item {
+    height: 230px;
+    max-width: 363px;
+
+    &_wrapper {
+      height: 230px;
+      padding: 24px;
+    }
+  }
+}
+
+@media (min-width: 390px) {
+  .card-item {
+    height: 239px;
+    max-width: 379px;
+
+    &_wrapper {
+      height: 239px;
+      padding: 24px;
+    }
+
+    &_band {
+      height: 40px;
+      margin: 30px auto 0 auto;
+    }
+
+    &_cvv {
+      width: calc(100% - 48px);
+      margin: 20px auto 0 auto;
+    }
+
+    &_cvvBand {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+}
+
+@media (min-width: 680px) {
+  .card-list {
+    margin: 0 6px -200px 6px;
+  }
+
+  .card-item {
+    width: 560px;
+    height: 355px;
+    border-radius: 30px;
+    max-width: initial;
+
+    &_side {
+      &.-back .card-item_type {
+        margin-top: 42px;
+      }
+    }
+
+    &_wrapper {
+      height: 355px;
+      padding: 32px;
+    }
+
+    &_coin .crypto-coin {
+      width: 40px;
+    }
+
+    &_number {
+      font-size: 32px;
+    }
+
+    &_separator {
+      margin: 32px 0 26px 0;
+    }
+
+    &_name,
+    &_date {
+      font-size: 20px;
+    }
+
+    &_band {
+      height: 50px;
+      width: 553px;
+      margin: 50px auto 0 auto;
+    }
+
+    &_cvv {
+      width: calc(100% - 64px);
+      margin: 36px auto 0 auto;
+    }
+
+    &_cvvTitle {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    &_cvvBand {
+      height: 50px;
+      font-size: 20px;
+      line-height: 50px;
+    }
+
+    &_id_text {
+      font-size: 16px;
+    }
   }
 }
