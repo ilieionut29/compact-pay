@@ -1,18 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import WarningMessage from './components/warning';
+
 import Cards from './card-manager/cards';
 import AddCard from './card-manager/add-card';
 import EditCard from './card-manager/edit-card';
-import NavBar from './components/navbar';
-
-import './style/style.scss';
-import './style/animation.scss';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import 'swiper/css/effect-creative';
+import './style/style.scss';
+import './style/animation.scss';
 
 const App = () => {
   return (
@@ -24,6 +23,7 @@ const App = () => {
           <Route path='/cards/:id/edit' element={<EditCard />} />
         </Routes>
       </BrowserRouter>
+      <WarningMessage />
     </>
   );
 };

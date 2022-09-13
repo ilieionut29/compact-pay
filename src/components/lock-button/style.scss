@@ -1,0 +1,81 @@
+.btn {
+  position: relative;
+  color: #fff;
+  min-width: 100px;
+  height: 40px;
+  background-color: #39b549;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  border: 0;
+  outline: 0;
+  overflow: hidden;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 5, 5, 0.8);
+  transition: width 0.4s;
+}
+
+.btn__text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.reverse {
+  animation-direction: reverse;
+}
+
+.translate-right {
+  --x: 100%;
+  animation-name: translate;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+
+.translate-left {
+  --x: -100%;
+  animation-name: translate;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+
+@keyframes translate {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(var(--x));
+  }
+}
+
+.fade-in {
+  animation: fade 0.4s linear 0.4s reverse both;
+}
+
+.fade-out {
+  animation: fade 0.4s linear 0s normal both;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

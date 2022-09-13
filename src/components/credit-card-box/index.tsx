@@ -21,6 +21,7 @@ const CARDS = {
 // const COINS = {
 //   eGold: 'EGLD',
 //   Bitcoin: 'BTC',
+//   Etherum: 'ETH',
 // };
 
 const Card = (props: CardProp) => {
@@ -75,6 +76,8 @@ const Card = (props: CardProp) => {
       return 'Bitcoin.png';
     } else if (cardCryptoType === 'eGold') {
       return 'eGold.png';
+    } else if (cardCryptoType === 'Ethereum') {
+      return 'Ethereum.png';
     } else {
       return 'background.png';
     }
@@ -213,12 +216,12 @@ const Card = (props: CardProp) => {
                   0,
                   6
                 )}${cardHolder
-                  .replace(/\s/g, '')
+                  .replaceAll(' ', '')
                   .substring(0, 4)
                   .toUpperCase()}${cardNumber
                   .replaceAll(' ', '')
                   .substring(10, 16)}${cardHolder
-                  .replace(/\s/g, '')
+                  .replaceAll(' ', '')
                   .substring(4, 7)
                   .toUpperCase()}`}
               </span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { CreditCard } from '../../card-manager/credit-cards';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 
 import './style.scss';
 interface CardFormProps {
@@ -20,7 +20,7 @@ const monthsArray = Array.from({ length: 12 }, (x, i) => {
 const currentYear = new Date().getFullYear();
 const yearsArray = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 
-const coins = ['Bitcoin', 'eGold'];
+const coins = ['Bitcoin', 'eGold', 'Ethereum'];
 
 export default function CardFrom(props: CardFormProps) {
   const [isBalanceValid, setIsBalanceValid] = useState(true);
@@ -169,159 +169,157 @@ export default function CardFrom(props: CardFormProps) {
   };
 
   return (
-    <div className='card-form'>
-      <div className='card-list'>{children}</div>
-      <div className='card-form_wrapper'>
-        <FloatingLabel label='Card number'>
-          <Form.Control
-            id='floatingInputCustom'
-            type='text'
-            name='cardNumber'
-            className='card-form_input'
-            autoComplete='off'
-            onChange={handleFormChangeNumbers}
-            maxLength={19}
-            value={selectedCreditCard.cardNumber}
-            isInvalid={!!errors.cardNumber}
-            placeholder='Card number'
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.cardNumber}
-          </Form.Control.Feedback>
-        </FloatingLabel>
-
-        <FloatingLabel label='Card holder'>
-          <Form.Control
-            type='text'
-            name='cardHolder'
-            className='card-form_input'
-            autoComplete='off'
-            onChange={handleFormChange}
-            maxLength={25}
-            value={selectedCreditCard.cardHolder}
-            isInvalid={!!errors.cardHolder}
-            placeholder='Card holder'
-          />
-          <Form.Control.Feedback type='invalid'>
-            {errors.cardHolder}
-          </Form.Control.Feedback>
-        </FloatingLabel>
-
-        <div className='card-form_helper'>
-          <FloatingLabel controlId='floatingSelect' label='Card month'>
-            <Form.Select
-              aria-label='Card month'
-              value={selectedCreditCard.cardMonth}
-              name='cardMonth'
-              className='card-form_input'
-              onChange={handleFormChange}
-              isInvalid={!!errors.cardMonth}
-            >
-              {monthsArray.map((value, index) => (
-                <option key={index} value={value}>
-                  {value}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type='invalid'>
-              {errors.cardMonth}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-
-          <FloatingLabel controlId='floatingSelect' label='Card year'>
-            <Form.Select
-              aria-label='Card year'
-              value={selectedCreditCard.cardYear}
-              name='cardYear'
-              className='card-form_input'
-              onChange={handleFormChange}
-              isInvalid={!!errors.cardYear}
-            >
-              {yearsArray.map((value, index) => (
-                <option key={index} value={value}>
-                  {value}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type='invalid'>
-              {errors.cardYear}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-        </div>
-
-        <FloatingLabel
-          controlId='floatingSelect'
-          label='Select your crypto coin'
-        >
-          <Form.Select
-            aria-label='Select your crypto coin'
-            value={selectedCreditCard.cardCryptoType}
-            name='cardCryptoType'
-            className='card-form_input'
-            onChange={handleFormChangeCrypto}
-            isInvalid={!!errors.cardCryptoType}
-          >
-            <option value='' disabled>
-              Crypto coin
-            </option>
-            {coins.map((value, index) => (
-              <option key={index} value={value}>
-                {value}
-              </option>
-            ))}
-          </Form.Select>
-          <Form.Control.Feedback type='invalid'>
-            {errors.cardCryptoType}
-          </Form.Control.Feedback>
-        </FloatingLabel>
-
-        <div className='card-form_helper'>
-          <FloatingLabel label='Card balance'>
+    <>
+      <div className='card-form'>
+        <div className='card-list'>{children}</div>
+        <div className='card-form_wrapper'>
+          <FloatingLabel label='Card number'>
             <Form.Control
               id='floatingInputCustom'
               type='text'
-              name='cardBalance'
-              className='card-form_input'
-              autoComplete='off'
-              onChange={handleFormChangeBalance}
-              maxLength={8}
-              value={selectedCreditCard.cardBalance}
-              isInvalid={!!errors.cardBalance}
-              placeholder='Card number'
-            />
-            <Form.Control.Feedback type='invalid'>
-              {errors.cardBalance}
-            </Form.Control.Feedback>
-          </FloatingLabel>
-
-          <FloatingLabel label='CVV/CVC'>
-            <Form.Control
-              type='text'
-              name='cardCvv'
+              name='cardNumber'
               className='card-form_input'
               autoComplete='off'
               onChange={handleFormChangeNumbers}
-              maxLength={4}
-              value={selectedCreditCard.cardCvv}
-              isInvalid={!!errors.cardCvv}
-              onFocus={onCvvFocus}
-              onBlur={onCvvBlur}
-              placeholder='CVV/CVC'
+              maxLength={19}
+              value={selectedCreditCard.cardNumber}
+              isInvalid={!!errors.cardNumber}
+              placeholder='Card number'
             />
             <Form.Control.Feedback type='invalid'>
-              {errors.cardCvv}
+              {errors.cardNumber}
             </Form.Control.Feedback>
           </FloatingLabel>
-        </div>
 
-        <Button
-          onClick={handleConfirmAction}
-          variant='success'
-          className='card-form_btn'
-        >
-          Confirm
-        </Button>
+          <FloatingLabel label='Card holder'>
+            <Form.Control
+              type='text'
+              name='cardHolder'
+              className='card-form_input'
+              autoComplete='off'
+              onChange={handleFormChange}
+              maxLength={25}
+              value={selectedCreditCard.cardHolder}
+              isInvalid={!!errors.cardHolder}
+              placeholder='Card holder'
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.cardHolder}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+
+          <div className='card-form_helper'>
+            <FloatingLabel controlId='floatingSelect' label='Card month'>
+              <Form.Select
+                aria-label='Card month'
+                value={selectedCreditCard.cardMonth}
+                name='cardMonth'
+                className='card-form_input'
+                onChange={handleFormChange}
+                isInvalid={!!errors.cardMonth}
+              >
+                {monthsArray.map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type='invalid'>
+                {errors.cardMonth}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+
+            <FloatingLabel controlId='floatingSelect' label='Card year'>
+              <Form.Select
+                aria-label='Card year'
+                value={selectedCreditCard.cardYear}
+                name='cardYear'
+                className='card-form_input'
+                onChange={handleFormChange}
+                isInvalid={!!errors.cardYear}
+              >
+                {yearsArray.map((value, index) => (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </Form.Select>
+              <Form.Control.Feedback type='invalid'>
+                {errors.cardYear}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+          </div>
+
+          <FloatingLabel
+            controlId='floatingSelect'
+            label='Select your crypto coin'
+          >
+            <Form.Select
+              aria-label='Select your crypto coin'
+              value={selectedCreditCard.cardCryptoType}
+              name='cardCryptoType'
+              className='card-form_input'
+              onChange={handleFormChangeCrypto}
+              isInvalid={!!errors.cardCryptoType}
+            >
+              <option value='' disabled>
+                Crypto coin
+              </option>
+              {coins.map((value, index) => (
+                <option key={index} value={value}>
+                  {value}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type='invalid'>
+              {errors.cardCryptoType}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+
+          <div className='card-form_helper'>
+            <FloatingLabel label='Card balance'>
+              <Form.Control
+                id='floatingInputCustom'
+                type='text'
+                name='cardBalance'
+                className='card-form_input'
+                autoComplete='off'
+                onChange={handleFormChangeBalance}
+                maxLength={8}
+                value={selectedCreditCard.cardBalance}
+                isInvalid={!!errors.cardBalance}
+                placeholder='Card number'
+              />
+              <Form.Control.Feedback type='invalid'>
+                {errors.cardBalance}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+
+            <FloatingLabel label='CVV/CVC'>
+              <Form.Control
+                type='text'
+                name='cardCvv'
+                className='card-form_input'
+                autoComplete='off'
+                onChange={handleFormChangeNumbers}
+                maxLength={4}
+                value={selectedCreditCard.cardCvv}
+                isInvalid={!!errors.cardCvv}
+                onFocus={onCvvFocus}
+                onBlur={onCvvBlur}
+                placeholder='CVV/CVC'
+              />
+              <Form.Control.Feedback type='invalid'>
+                {errors.cardCvv}
+              </Form.Control.Feedback>
+            </FloatingLabel>
+          </div>
+
+          <button onClick={handleConfirmAction} className='card-form_btn'>
+            Confirm
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
