@@ -22,6 +22,10 @@ const CARDS = {
 //   eGold: 'EGLD',
 //   Bitcoin: 'BTC',
 //   Etherum: 'ETH',
+//   Cardano: 'ADA',
+//   Solana: 'SOL',
+//   Tether: 'USDT',
+//   Ripple: 'XRP'
 // };
 
 const Card = (props: CardProp) => {
@@ -78,6 +82,14 @@ const Card = (props: CardProp) => {
       return 'eGold.png';
     } else if (cardCryptoType === 'Ethereum') {
       return 'Ethereum.png';
+    } else if (cardCryptoType === 'Cardano') {
+      return 'Cardano.png';
+    } else if (cardCryptoType === 'Solana') {
+      return 'Solana.png';
+    } else if (cardCryptoType === 'Tether') {
+      return 'Tether.png';
+    } else if (cardCryptoType === 'XRP') {
+      return 'XRP.png';
     } else {
       return 'background.png';
     }

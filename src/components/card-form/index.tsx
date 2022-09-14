@@ -20,7 +20,7 @@ const monthsArray = Array.from({ length: 12 }, (x, i) => {
 const currentYear = new Date().getFullYear();
 const yearsArray = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 
-const coins = ['Bitcoin', 'eGold', 'Ethereum'];
+const coins = ['Bitcoin', 'eGold', 'Ethereum', 'Cardano', 'Solana', 'Tether', 'XRP'];
 
 export default function CardFrom(props: CardFormProps) {
   const [isBalanceValid, setIsBalanceValid] = useState(true);
