@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigation, EffectCreative, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,8 +15,6 @@ export default function Cards() {
   const [cardsData, setCardsData] = useState<CreditCard[]>([]);
   const [cvvActive, setCvvActive] = useState(false);
   const [cardLocked, setCardLocked] = useState(false);
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
 
   const [cardLock, setCardLock] = useState({
     stage: 'INITIAL',
@@ -95,11 +93,11 @@ export default function Cards() {
         <>
           <span className='title'>Wallet collection</span>
           <div className='siwper-nav'>
-            <div className='nav-btn prev' ref={navigationPrevRef}>
+            <div className='nav-btn prev' id="swiperPrevBtn">
               <TiArrowLeftThick />
             </div>
             <div className='nav-center'>slide between cards</div>
-            <div className='nav-btn next' ref={navigationNextRef}>
+            <div className='nav-btn next' id="swiperNextBtn">
               <TiArrowRightThick />
             </div>
           </div>
@@ -119,8 +117,8 @@ export default function Cards() {
               },
             }}
             navigation={{
-              prevEl: navigationPrevRef.current,
-              nextEl: navigationNextRef.current,
+              prevEl:"#swiperPrevBtn",
+              nextEl: "#swiperNextBtn",
             }}
           >
             {cardsData.map((card: CreditCard, id) => (

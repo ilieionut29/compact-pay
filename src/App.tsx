@@ -7,9 +7,9 @@ import Cards from './card-manager/cards';
 import AddCard from './card-manager/add-card';
 import EditCard from './card-manager/edit-card';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-creative';
+import 'swiper/scss';
+import 'swiper/scss/navigation';
+import 'swiper/scss/effect-creative';
 import './style/style.scss';
 import './style/animation.scss';
 
