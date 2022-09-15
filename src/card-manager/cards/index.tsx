@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Navigation, EffectCreative } from 'swiper';
+import { Navigation, EffectCreative, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { BiShow, BiHide } from 'react-icons/bi';
 import { TiArrowRightThick, TiArrowLeftThick } from 'react-icons/ti';
@@ -104,7 +104,7 @@ export default function Cards() {
             </div>
           </div>
           <Swiper
-            modules={[EffectCreative, Navigation]}
+            modules={[EffectCreative, Navigation, A11y]}
             grabCursor={true}
             loop={true}
             effect={'creative'}
