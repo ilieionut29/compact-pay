@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigation, EffectCreative, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -93,11 +93,11 @@ export default function Cards() {
         <>
           <span className='title'>Wallet collection</span>
           <div className='siwper-nav'>
-            <div className='nav-btn prev' id="swiperPrevBtn">
+            <div className='nav-btn prev' id='swiperPrevBtn'>
               <TiArrowLeftThick />
             </div>
             <div className='nav-center'>slide between cards</div>
-            <div className='nav-btn next' id="swiperNextBtn">
+            <div className='nav-btn next' id='swiperNextBtn'>
               <TiArrowRightThick />
             </div>
           </div>
@@ -117,8 +117,8 @@ export default function Cards() {
               },
             }}
             navigation={{
-              prevEl:"#swiperPrevBtn",
-              nextEl: "#swiperNextBtn",
+              prevEl: '#swiperPrevBtn',
+              nextEl: '#swiperNextBtn',
             }}
           >
             {cardsData.map((card: CreditCard, id) => (

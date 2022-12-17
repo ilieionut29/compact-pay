@@ -18,6 +18,6 @@ const NavBar = () => {
       </NavLink>
     </nav>
   );
-}
+};
 
 export default NavBar;
