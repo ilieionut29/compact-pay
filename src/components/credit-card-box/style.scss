@@ -20,6 +20,7 @@
 
       &.-back {
         transform: perspective(1000px) rotateY(0) rotateX(0deg) rotateZ(0deg);
+        visibility: visible;
       }
     }
   }
@@ -55,6 +56,7 @@
       z-index: 2;
       padding: 0;
       height: 100%;
+      visibility: hidden;
 
       .card-item_type {
         display: flex;
